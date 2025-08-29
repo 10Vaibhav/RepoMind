@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import useProject from "@/hooks/use-project";
 
 const items = [
   {
@@ -48,21 +49,11 @@ const items = [
   },
 ];
 
-const projects = [
-  {
-    name: "project 1",
-  },
-  {
-    name: "project 2",
-  },
-  {
-    name: "project 3",
-  },
-];
 
 export function AppSidebar() {
   const pathname = usePathname();
   const { open } = useSidebar();
+  const {projects, projectId, setProjectId} = useProject();
   return (
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader>
@@ -107,17 +98,18 @@ export function AppSidebar() {
           <SidebarGroupLabel>Your Projects</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {projects.map((project) => {
+              {projects?.map((project) => {
                 return (
                   <SidebarMenuItem key={project.name}>
                     <SidebarMenuButton asChild>
-                      <div>
+                      <div onClick={()=> {
+                        setProjectId(project.id);
+                      }}>
                         <div
                           className={cn(
                             "text-primary flex size-6 items-center justify-center rounded-sm border bg-white text-sm",
                             {
-                              "bg-primary text-white": true,
-                              // 'bg-primary text-white': project.id === project.id
+                              'bg-primary text-white': project.id === projectId
                             },
                           )}
                         >
