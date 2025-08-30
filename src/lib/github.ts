@@ -58,6 +58,7 @@ export const pullCommits = async (projectId: string) => {
 
     const commit = await db.commit.createMany({
         data: summaries.map((summary, index) => {
+            console.log(`Processing commit ${index}`);
             return {
                 projectId: projectId,
                 commitHash: unprocessedCommits[index]!.commitHash,
