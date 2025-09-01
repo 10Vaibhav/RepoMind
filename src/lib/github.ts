@@ -17,15 +17,14 @@ type Response = {
 
 export const getCommitHashes = async (githubUrl: string): Promise<Response[]> => {
 
-    const [owner, repo] = githubUrl.split("/").slice(-2);
 
-    if(!owner || !repo){
-        throw new Error("Invalid github url");
-    }
+    const urlParts = githubUrl.split("/").slice(-2);
+    const [owner, repo] = urlParts;
+
 
     const {data} =  await octokit.rest.repos.listCommits({
-        owner: owner,
-        repo: repo
+        owner: owner!,
+        repo: repo!
     })
 
     const sortedCommits = data.sort((a: any, b: any) => new Date(b.commit.author.date).getTime() - new Date(a.commit.author.date).getTime()) as any[]
@@ -42,7 +41,8 @@ export const getCommitHashes = async (githubUrl: string): Promise<Response[]> =>
 // console.log(await getCommitHashes(githubUrl));
 
 export const pullCommits = async (projectId: string) => {
-    const {project , githubUrl} = await fetchProjectGithubUrl(projectId);
+    const {project, githubUrl} = await fetchProjectGithubUrl(projectId);
+    
     const commitHashes = await getCommitHashes(githubUrl!);
     const unprocessedCommits = await filterUnprocessedCommits(projectId, commitHashes);
     const summaryResponses = await Promise.allSettled(unprocessedCommits.map(commit => {
@@ -86,12 +86,14 @@ async function summarizeCommit(githubUrl: string, commitHash: string){
 }
 
 export const fetchProjectGithubUrl = async (projectId: string) => {
+    
     const project = await db.project.findUnique({
         where: {id: projectId},
         select: {
             githubUrl: true
         }
     });
+
 
     return {project, githubUrl: project?.githubUrl};
 }
