@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { GoogleGenerativeAI } from "@google/generative-ai"
+import { Document } from "@langchain/core/documents";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -11,7 +12,7 @@ export const aiSummarizeCommit = async (diff: string) => {
     // https://github.com/docker/genai-stack/commit/<commithash>.diff
 
     const response = await model.generateContent([
-    `You are an expert programmer tasked with creating clear, accurate commit summaries from git diffs. Your goal is to produce concise bullet points that explain what changed and why it matters.
+        `You are an expert programmer tasked with creating clear, accurate commit summaries from git diffs. Your goal is to produce concise bullet points that explain what changed and why it matters.
 
 ## Git Diff Format Reference
 
@@ -89,8 +90,41 @@ index abc123..def456 100644
 5. **Write bullets** focusing on user/developer-facing changes first
 
 Provide only the bullet-point summary, with each point starting with \`*\` and following the guidelines above. Do not include explanatory text, headers, or meta-commentary about the diff itself.`,
-    `Please summarize the following diff file: \n\n${diff}`
-]);
+        `Please summarize the following diff file: \n\n${diff}`
+    ]);
 
     return await response.response.text();
 }
+
+export async function summarizeCode(doc: Document) {
+    console.log("Getting summary for", doc.metadata.source);
+
+    try {
+        const code = doc.pageContent.slice(0, 10000); // Limit to 10000 characters
+        const response = await model.generateContent([
+            `You are an intelligent senior software engineer who specialises in onboarding junior software engineers onto projects.`,
+            `You are onboarding a junior software engineer and explaining to them the purpose of the ${doc.metadata.source} file Here is the code:
+        ---
+        ${code}
+        ---
+        Give a summary no more then 100 words of the code above`,
+        ]);
+
+        return response.response.text();
+
+    } catch(error) {
+        return `error : ${error}`;
+    }
+}
+
+export async function generateEmbedding(summary: string) {
+    const model = genAI.getGenerativeModel({
+        model: "text-embedding-004"
+    });
+
+    const result = await model.embedContent(summary);
+    const embedding = result.embedding;
+    return embedding.values;
+}
+
+// console.log(await generateEmbeddings("hello world"));
