@@ -17,6 +17,8 @@ import Image from "next/image";
 import { askQuestion } from "./action";
 import { readStreamableValue } from "@ai-sdk/rsc";
 import CodeReferences from "./code-references";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
 
 const AskQuestionCard = () => {
   const { project } = useProject();
@@ -27,6 +29,7 @@ const AskQuestionCard = () => {
     { fileName: string; sourceCode: string; summary: string }[]
   >([]);
   const [answer, setAnswer] = useState("");
+  const saveAnswer = api.project.saveAnswer.useMutation();
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setAnswer("");
@@ -53,7 +56,7 @@ const AskQuestionCard = () => {
         <DialogContent className="w-[90vw] overflow-hidden p-0 sm:max-w-[80vw]">
           <div className="grid max-h-[85vh] w-full grid-rows-[auto,1fr,auto]">
             <DialogHeader className="border-b p-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
                 <DialogTitle>
                   <Image
                     src="/logo.jpeg"
@@ -62,6 +65,26 @@ const AskQuestionCard = () => {
                     height={40}
                   />
                 </DialogTitle>
+                <Button
+                  variant={"outline"}
+                  disabled = {saveAnswer.isPending}
+                  onClick={() => {
+                    saveAnswer.mutate({
+                      projectId: project!.id,
+                      question,
+                      answer,
+                      filesReferences,
+                    }, {
+                      onSuccess: () => {
+                        toast.success("Answer Saved!")
+                      },
+                      onError: ()=> {
+                        toast.error("Failed to Save answer!")
+                      }
+                    });
+                  }}>
+                  Save Answer
+                </Button>
               </div>
             </DialogHeader>
 
