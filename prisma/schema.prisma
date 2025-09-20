@@ -26,6 +26,40 @@ model User {
     questionsAsked Question[]
 }
 
+model Meeting {
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    meetingUrl String // firebase storage url
+
+    projectId String
+    project Project @relation(fields: [projectId], references: [id])
+
+    status MeetingStatus @default(PROCESSING)
+    issues Issue[]
+}
+
+enum MeetingStatus {
+    PROCESSING
+    COMPLETED
+}
+
+model Issue {
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    start String
+    end String
+    gist String
+    headline String
+    summary String
+
+    meetingId String
+    meeting Meeting @relation(fields: [meetingId], references: [id])
+}
+
 model Project {
     id String @id @default(cuid())
     createdAt DateTime @default(now())
@@ -39,6 +73,7 @@ model Project {
     commits Commit[]
     sourceCodeEmbedding SourceCodeEmbedding[]
     savedQuestion Question[]
+    meeting Meeting[]
 }
 
 model UserToProject {
