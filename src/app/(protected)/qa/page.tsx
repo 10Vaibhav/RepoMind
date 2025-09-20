@@ -5,7 +5,6 @@ import useProject from "@/hooks/use-project";
 import { api } from "@/trpc/react";
 import AskQuestionCard from "../dashboard/ask-question-card";
 import { Fragment, useState } from "react";
-import { useScreen } from "usehooks-ts";
 import MDEditor from "@uiw/react-md-editor";
 import CodeReferences from "../dashboard/code-references";
 
