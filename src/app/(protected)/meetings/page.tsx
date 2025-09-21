@@ -7,12 +7,16 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import useRefetch from "@/hooks/use-refetch";
 
 const MeetingsPage = () => {
   const { projectId } = useProject();
   const {data: meetings, isLoading} = api.project.getMeetings.useQuery({projectId}, {
     refetchInterval: 4000
   });
+const refetch = useRefetch();
+  const deleteMeeting = api.project.deleteMeeting.useMutation();
 
   return (
     <>
@@ -49,10 +53,18 @@ const MeetingsPage = () => {
 
                     <div className="flex items-center flex-none gap-x-4">
                         <Link href={`/meetings/${meeting.id}`}>
-                            <Button variant="outline">
+                            <Button size='sm' variant="outline">
                                 View Meeting
                             </Button>
                         </Link>
+                        <Button disabled={deleteMeeting.isPending} size='sm' variant='destructive' onClick={()=> deleteMeeting.mutate({meetingId: meeting.id}, {
+                            onSuccess: () => {
+                                toast.success("Meeting deleted successfully");
+                                refetch();
+                            }
+                        })}>
+                            Delete Meeting
+                        </Button>
                     </div>
                 </li>
             ))}
