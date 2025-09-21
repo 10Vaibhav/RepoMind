@@ -27,20 +27,20 @@ const QAPage = () => {
         {questions?.map((question, index) => {
           return <Fragment key={question.id}>
                 <SheetTrigger onClick={() => setQuestionIndex(index)}>
-                  <div className="flex items-center gap-4 bg-white rounded-lg p-4 shadow border">
-                    <img className="rounded-full" height={30} width={30} src={question.user.imageUrl ?? ""}/>
+                  <div className="flex items-start gap-3 bg-card rounded-lg p-3 sm:p-4 shadow-sm hover:shadow-md transition-all cursor-pointer">
+                    <img className="rounded-full flex-shrink-0" height={30} width={30} src={question.user.imageUrl ?? ""}/>
 
-                    <div className="text-left flex flex-col">
-                      <div className="flex items-center gap-2">
-                          <p className="text-gray-700 line-clamp-1 text-lg font-medium">
+                    <div className="text-left flex flex-col min-w-0 flex-1">
+                      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2">
+                          <p className="text-foreground line-clamp-2 text-sm sm:text-lg font-medium">
                             {question.question}
                           </p>
-                          <span className="text-xs text-gray-400 whitespace-nowrap">
+                          <span className="text-xs text-muted-foreground whitespace-nowrap flex-shrink-0">
                             {question.createdAt.toLocaleDateString()}
                           </span>
                       </div>
 
-                      <p className="text-gray-500 line-clamp-1 text-sm">
+                      <p className="text-muted-foreground line-clamp-2 text-xs sm:text-sm mt-1">
                         {question.answer}
                       </p>
                     </div>
@@ -52,13 +52,15 @@ const QAPage = () => {
 
       {
         question && (
-          <SheetContent className="sm:max-w-[80vw] overflow-scroll">
+          <SheetContent className="w-[95vw] sm:max-w-[80vw] overflow-scroll">
             <SheetHeader>
-              <SheetTitle>
+              <SheetTitle className="text-sm sm:text-base">
                 {question.question}
               </SheetTitle>
-              <MDEditor.Markdown source={question.answer}/>
-              <CodeReferences filesReferences={(question.fileReferences ?? []) as any} />
+              <div className="mt-4">
+                <MDEditor.Markdown source={question.answer}/>
+                <CodeReferences filesReferences={(question.fileReferences ?? []) as any} />
+              </div>
             </SheetHeader>
           </SheetContent>
         )

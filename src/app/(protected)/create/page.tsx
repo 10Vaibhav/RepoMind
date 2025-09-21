@@ -39,39 +39,40 @@ const CreatePage = () => {
   }
 
   return (
-    <div className="flex h-full items-center justify-center gap-12">
-      <img src="/undraw_github.svg" className="h-56 w-auto" />
-      <div>
-        <div>
-          <h1 className="text-2xl font-semibold">
+    <div className="flex flex-col items-center justify-center gap-8 p-4 sm:gap-12 sm:p-8 min-h-[calc(100vh-8rem)]">
+      <div className="text-center">
+        <img src="/undraw_github.svg" className="h-40 w-auto sm:h-56 mx-auto mb-6" />
+        <div className="w-full max-w-md mx-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
             Link Your Github Repository
           </h1>
-          <p>Enter the URL of your repository to link it to RepoMind</p>
+          <p className="text-muted-foreground mb-8">Enter the URL of your repository to link it to RepoMind</p>
         </div>
-        <div className="h-4"></div>
-        <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Input
-              {...register("repoUrl", { required: true })}
-              placeholder="Github URL"
-              type="url"
-              required
-            />
-            <div className="h-2"></div>
-            <Input
-              {...register("projectName", { required: true })}
-              placeholder="Project Name"
-              required
-            />
-            <div className="h-2"></div>
-            <Input
-              {...register("githubToken")}
-              placeholder="Github Token (Optional)"
-            />
-            <div className="h-2"></div>
-            <Button type="submit" disabled= {createProject.isPending}>Create Project</Button>
-          </form>
-        </div>
+      </div>
+      <div className="w-full max-w-md">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <Input
+            {...register("repoUrl", { required: true })}
+            placeholder="Github URL"
+            type="url"
+            required
+            className="w-full"
+          />
+          <Input
+            {...register("projectName", { required: true })}
+            placeholder="Project Name"
+            required
+            className="w-full"
+          />
+          <Input
+            {...register("githubToken")}
+            placeholder="Github Token (Optional)"
+            className="w-full"
+          />
+          <Button type="submit" disabled={createProject.isPending} className="w-full">
+            Create Project
+          </Button>
+        </form>
       </div>
     </div>
   );

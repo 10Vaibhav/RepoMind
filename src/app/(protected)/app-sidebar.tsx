@@ -21,6 +21,7 @@ import {
   LayoutDashboard,
   Plus,
   Presentation,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -58,7 +59,18 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader>
         <div className="flex items-center gap-2">
-          <Image src="/Luffy Hat.jpeg" alt="logo" width={40} height={40} />
+        <a href="./" className="flex items-center min-w-0" aria-label="RepoMind Home">
+                <span className="relative">
+                  <div className="bg-primary p-1.5 sm:p-2 rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
+                    <img 
+                      src="/cosmic-logo.jpg" 
+                      alt="RepoMind Logo" 
+                      className="h-4 w-4 sm:h-6 sm:w-6 object-cover rounded"
+                    />
+                    <Sparkles className="h-4 w-4 sm:h-6 sm:w-6 text-white hidden" />
+                  </div>
+                </span>
+              </a>
           {open && (
             <h1 className="text-primary/80 text-xl font-bold">RepoMind</h1>
           )}
@@ -107,7 +119,7 @@ export function AppSidebar() {
                       }}>
                         <div
                           className={cn(
-                            "text-primary flex size-6 items-center justify-center rounded-sm border bg-white text-sm",
+                            "text-primary flex size-6 items-center justify-center rounded-sm bg-white text-sm",
                             {
                               'bg-primary text-white': project.id === projectId
                             },

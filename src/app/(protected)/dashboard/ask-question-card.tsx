@@ -56,21 +56,24 @@ const AskQuestionCard = () => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="w-[90vw] overflow-hidden p-0 sm:max-w-[80vw]">
+        <DialogContent className="w-[95vw] overflow-hidden p-0 sm:max-w-[80vw]">
           <div className="grid max-h-[85vh] w-full grid-rows-[auto,1fr,auto]">
-            <DialogHeader className="border-b p-4">
-              <div className="flex items-center gap-2">
-                <DialogTitle>
+            <DialogHeader className="border-b p-3 sm:p-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <DialogTitle className="flex items-center gap-2">
                   <Image
                     src="/logo.jpeg"
                     alt="RepoMind"
-                    width={40}
-                    height={40}
+                    width={32}
+                    height={32}
+                    className="sm:w-10 sm:h-10"
                   />
+                  <span className="text-sm sm:text-base">RepoMind Answer</span>
                 </DialogTitle>
                 <Button
                   variant={"outline"}
                   disabled = {saveAnswer.isPending}
+                  className="w-full sm:w-auto"
                   onClick={() => {
                     saveAnswer.mutate({
                       projectId: project!.id,
@@ -92,10 +95,10 @@ const AskQuestionCard = () => {
               </div>
             </DialogHeader>
 
-            <div className="space-y-4 overflow-auto p-4">
+            <div className="space-y-4 overflow-auto p-3 sm:p-4">
               <MDEditor.Markdown
                 source={answer}
-                className="max-h-[40vh] w-full overflow-auto rounded-md border p-3"
+                className="max-h-[40vh] w-full overflow-auto rounded-md p-3"
               />
 
               <CodeReferences filesReferences={filesReferences} />
@@ -104,9 +107,9 @@ const AskQuestionCard = () => {
         </DialogContent>
       </Dialog>
 
-      <Card className="relative col-span-3">
+      <Card className="relative col-span-1 sm:col-span-3">
         <CardHeader>
-          <CardTitle>Ask a Question</CardTitle>
+          <CardTitle className="text-sm sm:text-base">Ask a Question</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmit}>
@@ -114,9 +117,10 @@ const AskQuestionCard = () => {
               placeholder="which file should I edit to change the home page?"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
+              className="min-h-[100px] sm:min-h-[120px]"
             />
             <div className="h-4"></div>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading} className="w-full sm:w-auto">
               Ask RepoMind!
             </Button>
           </form>

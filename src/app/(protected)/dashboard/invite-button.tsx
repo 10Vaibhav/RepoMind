@@ -27,19 +27,28 @@ const InviteButton = () => {
     return (
         <>
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent>
+                <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Invite Team Members</DialogTitle>
                     </DialogHeader>
-                    <p className='text-sm text-gray-500'>
+                    <p className='text-sm text-muted-foreground'>
                         Ask them to copy and paste this link
                     </p>
-                    <Input
-                        className='mt-4'
-                        readOnly
-                        onClick={handleCopy}
-                        value={origin ? `${origin}/join/${projectId}` : ''}
-                    />
+                    <div className="mt-4 space-y-2">
+                        <Input
+                            readOnly
+                            onClick={handleCopy}
+                            value={origin ? `${origin}/join/${projectId}` : ''}
+                            className="text-xs sm:text-sm"
+                        />
+                        <Button 
+                            onClick={handleCopy} 
+                            variant="outline" 
+                            className="w-full sm:w-auto"
+                        >
+                            Copy Link
+                        </Button>
+                    </div>
                 </DialogContent>
             </Dialog>
 

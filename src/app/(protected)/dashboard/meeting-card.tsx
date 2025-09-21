@@ -66,24 +66,24 @@ const MeetingCard = () => {
   });
 
   return (
-    <Card className="col-span-2 flex flex-col items-center justify-center" {...getRootProps()}>
+    <Card className="col-span-1 sm:col-span-2 flex flex-col items-center justify-center min-h-[200px] sm:min-h-[250px]" {...getRootProps()}>
       {
         !isUploading && (
           <>
-          <Presentation className="h-10 w-10 animate-bounce"/>
-          <h3 className="mt-1 text-sm font-semibold text-gray-900">
+          <Presentation className="h-8 w-8 sm:h-10 sm:w-10 animate-bounce"/>
+          <h3 className="mt-2 text-sm sm:text-base font-semibold text-foreground text-center">
             Create a new meeting
           </h3>
 
-          <p className="mt-1 text-center text-sm text-gray-500">
+          <p className="mt-2 text-center text-xs sm:text-sm text-muted-foreground px-4">
             Analyse your meeting with RepoMind.
             <br />
             Powered by AI.
           </p>
 
-          <div>
-            <Button disabled={isUploading}>
-              <Upload className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true"/>
+          <div className="mt-4">
+            <Button disabled={isUploading} className="w-full sm:w-auto">
+              <Upload className="-ml-0.5 mr-1.5 h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true"/>
               Upload Meeting
               <input className="hidden" {...getInputProps()}/>
             </Button>
@@ -94,14 +94,14 @@ const MeetingCard = () => {
 
       {
         isUploading && (
-          <div className="">
-            <CircularProgressbar value={progress} text={`${progress}%`} className="size-20" styles={
+          <div className="flex flex-col items-center">
+            <CircularProgressbar value={progress} text={`${progress}%`} className="size-16 sm:size-20" styles={
               buildStyles({
-                pathColor: "#2563eb",
-                textColor: "#2563eb",
+                pathColor: "hsl(var(--primary))",
+                textColor: "hsl(var(--primary))",
               })
             }/>
-            <p className="text-sm text-gray-500 text-center">Uploading your meeting...</p>
+            <p className="mt-2 text-sm text-muted-foreground text-center">Uploading your meeting...</p>
           </div>
         )
       }

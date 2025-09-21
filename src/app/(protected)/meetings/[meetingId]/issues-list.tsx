@@ -27,24 +27,24 @@ const IssuesList = ({ meetingId }: Props) => {
 
   return (
     <>
-      <div className="p-8">
-        <div className="mx-auto flex max-w-2xl items-center justify-between gap-x-8 border-b pb-6 lg:mx-0 lg:max-w-none">
-          <div className="flex items-center gap-x-6">
-            <div className="rounded-full border bg-white p-3">
-              <VideoIcon className="h-6 w-6" />
+      <div className="p-4 sm:p-8">
+        <div className="mx-auto flex max-w-2xl items-center justify-between gap-x-4 sm:gap-x-8 border-b border-accent/30 pb-4 sm:pb-6 lg:mx-0 lg:max-w-none">
+          <div className="flex items-center gap-x-4 sm:gap-x-6 min-w-0">
+            <div className="rounded-full bg-primary p-2 sm:p-3 flex-shrink-0">
+              <VideoIcon className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
             </div>
-            <h1>
-              <div className="text-sm leading-6 text-gray-600">
+            <div className="min-w-0 flex-1">
+              <div className="text-xs sm:text-sm leading-6 text-muted-foreground">
                 Meeting on {""} {meeting.createdAt.toLocaleDateString()}
               </div>
-              <div className="mt-1 text-base leading-6 font-semibold text-gray-600">
+              <div className="mt-1 text-sm sm:text-base leading-6 font-semibold text-foreground truncate">
                 {meeting.name}
               </div>
-            </h1>
+            </div>
           </div>
         </div>
         <div className="h-4"></div>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {meeting.issues.map((issue) => (
             <IssueCard key={issue.id} issue={issue} />
           ))}
@@ -61,20 +61,20 @@ function IssueCard({issue}: {issue: NonNullable<RouterOutputs["project"]["getMee
     <>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="w-[95vw] sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>{issue.gist}</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-sm sm:text-base">{issue.gist}</DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm">
               {issue.createdAt.toLocaleDateString()}
             </DialogDescription>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground text-sm sm:text-base">
               {issue.headline}
             </p>
-            <blockquote className="mt-2 border-1-4 border-gray-300 bg-gray-50 p-4">
-              <span className="text-sm text-gray-600">
+            <blockquote className="mt-2 border-l-4 border-accent bg-accent/10 p-3 sm:p-4 rounded-r-lg">
+              <span className="text-xs sm:text-sm text-muted-foreground">
                 {issue.start} - {issue.end}
               </span>
-              <p className="font-medium italic leading-relaxed text-gray-900">
+              <p className="font-medium italic leading-relaxed text-foreground text-sm sm:text-base">
                 {issue.summary}
               </p>
             </blockquote>
@@ -83,13 +83,14 @@ function IssueCard({issue}: {issue: NonNullable<RouterOutputs["project"]["getMee
       </Dialog>
 
       <Card className="relative">
-        <CardHeader>
-          <CardTitle className="text-xl">{issue.gist}</CardTitle>
-          <div className="border-b"></div>
-          <CardDescription>{issue.headline}</CardDescription>
+        <CardHeader className="p-3 sm:p-6">
+          <CardTitle className="text-base sm:text-xl line-clamp-2">{issue.gist}</CardTitle>
+          <CardDescription className="text-xs sm:text-sm line-clamp-2">{issue.headline}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <Button onClick={() => setOpen(true)}>Details</Button>
+        <CardContent className="p-3 sm:p-6 pt-0">
+          <Button onClick={() => setOpen(true)} className="w-full sm:w-auto" size="sm">
+            Details
+          </Button>
         </CardContent>
       </Card>
     </>

@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
 
@@ -16,9 +16,10 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const geist = Geist({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
 });
 
 export default function RootLayout({
@@ -26,7 +27,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-    <html lang="en" className={`${geist.variable}`}>
+    <html lang="en" className={`${poppins.variable} font-sans`}>
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
         <Toaster richColors/>

@@ -15,29 +15,27 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-y-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         {/* Github link */}
-        <div className="bg-primary w-fit rounded-md px-4 py-3">
+        <div className="bg-primary w-full sm:w-fit rounded-lg px-4 py-3 shadow-sm">
           <div className="flex items-center">
             <Github className="size-5 text-white" />
-            <div className="ml-2">
+            <div className="ml-2 min-w-0 flex-1">
               <p className="text-sm font-medium text-white">
                 This project is linked to{" "}
                 <Link
                   href={project?.githubUrl ?? ""}
-                  className="inline-flex items-center text-white/80 hover:underline"
+                  className="inline-flex items-center text-white/90 hover:underline break-all"
                 >
-                  {project?.githubUrl}
-                  <ExternalLink className="ml-1 size-4" />
+                  <span className="truncate">{project?.githubUrl}</span>
+                  <ExternalLink className="ml-1 size-4 flex-shrink-0" />
                 </Link>
               </p>
             </div>
           </div>
         </div>
 
-        <div className="h-4"></div>
-
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
             <TeamMembers/>
             <InviteButton/>
             <ArchiveButton/>

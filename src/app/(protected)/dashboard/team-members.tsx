@@ -10,11 +10,11 @@ const TeamMembers = () => {
     const {data: members} = api.project.getTeamMembers.useQuery({projectId});
 
   return (
-    <div className="flex items=center gap-2">
+    <div className="flex items-center gap-1 sm:gap-2">
         {
             members?.map((member) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={member.id} src={member.user.imageUrl || ''} alt={member.user.firstName || ''} height={30} width={30} className="w-8 h-8 rounded-full" />
+                <img key={member.id} src={member.user.imageUrl || ''} alt={member.user.firstName || ''} height={24} width={24} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full" />
             ))
         }
     </div>
